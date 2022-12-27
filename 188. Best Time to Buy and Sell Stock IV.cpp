@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    int dfs(vector<int> &prices , int index ,int k, int hs, vector<vector<vector<int>>> &dp){
+ int dfs(vector<int> &prices , int index ,int k, int hs, vector<vector<vector<int>>> &dp){
         if(k <= 0 || index == prices.size()) return 0;
         
 
@@ -24,12 +24,12 @@ public:
 
 
     }
-    int maxProfit(vector<int>& prices) {
 
+    int maxProfit(int k, vector<int>& prices) {
 
-        vector<vector<vector<int>>> dp(prices.size(), vector<vector<int>> (3, vector<int> (2, -1)));
+        vector<vector<vector<int>>> dp(prices.size(), vector<vector<int>> (k + 1, vector<int> (2, -1)));
 
-        return dfs(prices, 0,  2, 0, dp);
+        return dfs(prices, 0,  k, 0, dp);
         
     }
 };
