@@ -1,0 +1,55 @@
+class Solution {
+public:
+    bool isPalindrome(string &s,  unordered_map<string, int> &palind){
+
+       
+     // if(palind[s] != 0) return palind[s] == 1 ? true : false;
+       int l = 0;
+       int r = s.length() - 1;
+       while(l <= r){
+
+           if(s[l] == s[r]){
+               l++;
+               r--;
+           }else{
+               //palind[s] = -1;
+               return false;
+           }
+       }
+       //palind[s] = 1;
+       return true;
+    }
+    int dfs(string &s, int st, int end,  map<pair<int, int>, int> &mp,  unordered_map<string, int>& palind){
+
+        if(st >= end) return 0;
+        if(mp[make_pair(st, end)] != NULL) return mp[make_pair(st, end)];
+        int minCuts = s.length();
+        for(int i = end; i >= st; i--){
+            string temp = s.substr(st, i - st + 1);
+           if(isPalindrome(temp, palind)){
+              
+                if(temp.length() == end - st + 1){
+                    minCuts = 0;
+                    break;
+                }else{
+                    int res = dfs(s, i + 1 , end, mp, palind);
+                    minCuts = min(minCuts, 1 + res);
+                }
+              
+            }
+        }
+
+        return mp[make_pair(st, end)] = minCuts == s.length() ? 0 : minCuts;
+    }
+    int minCut(string s) {
+        
+       unordered_map<string, int> palind;
+       if(isPalindrome(s, palind)){
+           return 0;
+        }
+        cout << "here" << endl;
+        map<pair<int, int>, int> mp;
+       return dfs(s, 0, s.length() - 1, mp, palind);
+
+    }
+};
